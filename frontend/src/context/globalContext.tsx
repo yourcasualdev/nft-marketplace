@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 
 interface IGlobalContextProps {
-    user: any;
-    loading: boolean;
-    setUser: (user: any) => void;
-    setLoading: (loading: boolean) => void;
+
 }
 
 interface IGlobalContextProviderProps {
