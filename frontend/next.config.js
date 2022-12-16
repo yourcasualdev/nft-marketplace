@@ -6,7 +6,6 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'ipfs.io',
-        port: '',
         pathname: '/ipfs/**',
       },
     ],

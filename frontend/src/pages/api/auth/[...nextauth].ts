@@ -15,5 +15,5 @@ export default NextAuth({
             (session as { user: unknown }).user = token.user;
             return session;
         },
-    },
+    }
 });
