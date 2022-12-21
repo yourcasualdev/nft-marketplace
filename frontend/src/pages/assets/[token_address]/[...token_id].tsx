@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
-import { getSession } from 'next-auth/react';
-import Moralis from 'moralis';
-import { EvmChain, EvmNftMetadata } from '@moralisweb3/common-evm-utils';
-import { GetServerSideProps } from 'next';
-import type { NFT } from '../../../types';
-import { useEvmNativeBalance } from '@moralisweb3/next'
-import { useRouter } from 'next/router'
-import Image from 'next/image'
-import ImageContainer from '../../../components/ImageContainer';
-import Link from 'next/link';
-import Header from '../../../components/Header';
 import Head from 'next/head';
+import { useRouter } from 'next/router'
+import { getSession } from 'next-auth/react';
+import { GetServerSideProps } from 'next';
+import Moralis from 'moralis';
+import { EvmChain, EvmNftMetadata, } from '@moralisweb3/common-evm-utils';
+import ImageContainer from '../../../components/ImageContainer';
+import Header from '../../../components/Header';
+
+import { useContract, useBalance, useSigner, useContractWrite } from 'wagmi';
+import { ABI, ADDRESS } from '../../../constants';
+import type { NFT } from '../../../types';
+import { ethers } from 'ethers';
+
 
 interface Props {
     user: any;
@@ -19,15 +21,22 @@ interface Props {
 
 function NftShowPage({ nft, user }: Props) {
     const router = useRouter();
-    const { data: nativeBalance } = useEvmNativeBalance({ address: user.address });
 
     const { token_address } = router.query;
 
-    useEffect(() => {
-        console.log(nft);
-    }, [nft]);
+    const { data: signer, isError, isLoading } = useSigner()
+
+    const contract = useContract({
+        contractInterface: ABI,
+        addressOrName: ADDRESS,
+        signerOrProvider: signer
+    });
 
     const ownedBy = nft.owner_of.toUpperCase() === user.address.toUpperCase() ? 'You' : nft.owner_of;
+
+
+    const handleListNft = async () => {
+    }
 
     return (
         <>
@@ -50,6 +59,9 @@ function NftShowPage({ nft, user }: Props) {
                                 {ownedBy}
                             </h3>
                         </div>
+                        <button onClick={handleListNft}>
+                            List Item
+                        </button>
                     </div>
                 </div>
             </div>
