@@ -4,6 +4,7 @@ import { useAccount, useConnect, useSignMessage, useDisconnect } from 'wagmi';
 import { useRouter } from 'next/router';
 import { useAuthRequestChallengeEvm } from '@moralisweb3/next';
 import Header from '../components/Header';
+import { useEffect } from 'react';
 
 function SignIn() {
     const { connectAsync } = useConnect();
@@ -32,6 +33,12 @@ function SignIn() {
          */
         push(url);
     };
+
+    useEffect(() => {
+        console.log("vercel env", process.env.NEXT_PUBLIC_VERCEL_URL);
+        console.log("vercel env", process.env.NEXTAUTH_URL);
+    }, []);
+
 
     return (
         <>
