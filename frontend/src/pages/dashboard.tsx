@@ -11,16 +11,17 @@ import Header from '../components/Header';
 interface Props {
     user: any;
     nftList: NFT[];
+    url: string;
 }
 
-function Dashboard({ nftList, user }: Props) {
+function Dashboard({ nftList, user, url }: Props) {
     const [nfts, setNfts] = useState<NFT[]>([]);
     const { data: nativeBalance } = useEvmNativeBalance({ address: user.address });
 
     useEffect(() => {
         setNfts(nftList);
-        console.log(nftList);
-    }, [nftList]);
+        console.log(url);
+    }, [nftList, url]);
 
     return (
         <>
@@ -77,7 +78,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
     return {
         props: {
             user: session?.user,
-            nftList: nftList
+            nftList: nftList,
+            url: process.env.NEXTAUTH_URL,
         },
     };
 }
